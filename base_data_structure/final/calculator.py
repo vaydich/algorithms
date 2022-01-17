@@ -2,21 +2,34 @@
 
 import operator
 
+
+class EmptyStackError(Exception):
+    pass
+
+
 class Stack:
     def __init__(self, list_in_postfix_notation):
-        self._stack = []
-        self._operators = ['+', '-', '*', '/']
-        self._list_in_postfix_notation = list_in_postfix_notation
+        self.__stack = []
+        self.__operators = ['+', '-', '*', '/']
+        self.__list_in_postfix_notation = list_in_postfix_notation
+        self.__operators_map = {
+            '+': 'add',
+            '-': 'sub',
+            '*': 'mul',
+            '/': 'floordiv'
+        }
 
     def pop(self):
-        return self._stack.pop()
+        if len(self.__stack) == 0:
+            raise EmptyStackError
+        return self.__stack.pop()
 
     def push(self, value):
-        self._stack.append(value)
+        self.__stack.append(value)
 
     def get_calc_result(self):
-        for note in self._list_in_postfix_notation:
-            if note in self._operators:
+        for note in self.__list_in_postfix_notation:
+            if note in self.__operators:
                 correct_operator = self.get_correct_operator(note)
                 first_operand = self.pop()
                 second_operand = self.pop()
@@ -31,16 +44,7 @@ class Stack:
         return self.pop()
 
     def get_correct_operator(self, note):
-        if note == '+':
-            correct_operator = 'add'
-        elif note == '-':
-            correct_operator = 'sub'
-        elif note == '*':
-            correct_operator = 'mul'
-        else:
-            correct_operator = 'floordiv'
-
-        return correct_operator
+        return self.__operators_map[note]
 
 
 if __name__ == '__main__':

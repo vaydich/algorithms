@@ -1,78 +1,74 @@
 #63574448
 
-class CustomError(Exception):
+class FullQueueError(Exception):
     pass
 
 
-class FullQueueError(CustomError):
-    pass
-
-
-class EmptyQueueError(CustomError):
+class EmptyQueueError(Exception):
     pass
 
 
 class Deque:
     def __init__(self, max_deque_size):
-        self._helper_list = [None] * max_deque_size
-        self._max_deque_size = max_deque_size
-        self._head = 0
-        self._tail = 0
+        self.__helper_list = [None] * max_deque_size
+        self.__max_deque_size = max_deque_size
+        self.__head = 0
+        self.__tail = 0
 
     def is_full(self) -> bool:
         return (
-                (self._head == 0 and self._tail == self._max_deque_size - 1)
-                or self._head == self._tail + 1
+                (self.__head == 0 and self.__tail == self.__max_deque_size - 1)
+                or self.__head == self.__tail + 1
         )
 
     def is_empty(self) -> bool:
-        return self._head == -1
+        return self.__head == -1
 
-    def push_front(self, x):
+    def push_front(self, value):
         if self.is_full():
             raise FullQueueError
 
         if self.is_empty():
-            self._head = 0
-            self._tail = 0
-        elif self._head == 0:
-            self._head = self._max_deque_size - 1
+            self.__head = 0
+            self.__tail = 0
+        elif self.__head == 0:
+            self.__head = self.__max_deque_size - 1
         else:
-            self._head = self._head - 1
+            self.__head = self.__head - 1
 
-        self._helper_list[self._head] = x
+        self.__helper_list[self.__head] = value
 
-    def push_back(self, x):
+    def push_back(self, value):
         if self.is_full():
             raise FullQueueError
 
         if self.is_empty():
-            self._head = 0
-            self._tail = 0
-        elif self._tail == self._max_deque_size - 1:
-            self._tail = 0
+            self.__head = 0
+            self.__tail = 0
+        elif self.__tail == self.__max_deque_size - 1:
+            self.__tail = 0
         else:
-            self._tail = self._tail + 1
+            self.__tail = self.__tail + 1
 
-        self._helper_list[self._tail] = x
+        self.__helper_list[self.__tail] = value
 
     def pop_front(self):
         if self.is_empty():
             raise EmptyQueueError
 
-        pop_value = self._helper_list[self._head]
-        self._helper_list[self._head] = None
+        pop_value = self.__helper_list[self.__head]
+        self.__helper_list[self.__head] = None
 
-        if self._head == self._tail:
-            self._head = -1
-            self._tail = -1
+        if self.__head == self.__tail:
+            self.__head = -1
+            self.__tail = -1
 
         else:
-            if self._head == self._max_deque_size - 1:
-                self._head = 0
+            if self.__head == self.__max_deque_size - 1:
+                self.__head = 0
 
             else:
-                self._head = self._head + 1
+                self.__head = self.__head + 1
 
         return pop_value
 
@@ -80,17 +76,17 @@ class Deque:
         if self.is_empty():
             raise EmptyQueueError
 
-        pop_value = self._helper_list[self._tail]
-        self._helper_list[self._tail] = None
+        pop_value = self.__helper_list[self.__tail]
+        self.__helper_list[self.__tail] = None
 
-        if self._head == self._tail:
-            self._head = -1
-            self._tail = -1
+        if self.__head == self.__tail:
+            self.__head = -1
+            self.__tail = -1
 
-        elif self._tail == 0:
-            self._tail = self._max_deque_size - 1
+        elif self.__tail == 0:
+            self.__tail = self.__max_deque_size - 1
         else:
-            self._tail = self._tail - 1
+            self.__tail = self.__tail - 1
 
         return pop_value
 
