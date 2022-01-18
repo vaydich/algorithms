@@ -10,13 +10,12 @@ class EmptyStackError(Exception):
 class Stack:
     def __init__(self, list_in_postfix_notation):
         self.__stack = []
-        self.__operators = ['+', '-', '*', '/']
         self.__list_in_postfix_notation = list_in_postfix_notation
         self.__operators_map = {
-            '+': 'add',
-            '-': 'sub',
-            '*': 'mul',
-            '/': 'floordiv'
+            '+': operator.add,
+            '-': operator.sub,
+            '*': operator.mul,
+            '/': operator.floordiv
         }
 
     def pop(self):
@@ -29,21 +28,18 @@ class Stack:
 
     def get_calc_result(self):
         for note in self.__list_in_postfix_notation:
-            if note in self.__operators:
-                correct_operator = self.get_correct_operator(note)
+            if note in self.__operators_map:
+                correct_method = self.get_correct_method(note)
                 first_operand = self.pop()
                 second_operand = self.pop()
-                result = (
-                    getattr(operator, correct_operator)
-                    (int(first_operand), int(second_operand))
-                )
+                result = correct_method(int(first_operand), int(second_operand))
                 self.push(result)
             else:
                 self.push(note)
 
         return self.pop()
 
-    def get_correct_operator(self, note):
+    def get_correct_method(self, note):
         return self.__operators_map[note]
 
 
