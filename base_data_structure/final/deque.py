@@ -1,4 +1,4 @@
-#63574448
+#64113151
 
 class FullQueueError(Exception):
     pass
@@ -12,7 +12,7 @@ class Deque:
     def __init__(self, max_deque_size):
         self.__helper_list = [None] * max_deque_size
         self.__max_deque_size = max_deque_size
-        self.__head = 0
+        self.__head = -1
         self.__tail = 0
 
     def is_full(self) -> bool:
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     for cmd in cmds:
         if len(cmd) == 1:
             try:
-                getattr(deq, cmd[0])()
+                print(getattr(deq, cmd[0])())
             except Exception:
                 print('error')
         else:

@@ -1,4 +1,4 @@
-#63714644
+#64113791
 
 import operator
 
@@ -30,8 +30,8 @@ class Stack:
         for note in self.__list_in_postfix_notation:
             if note in self.__operators_map:
                 correct_method = self.get_correct_method(note)
-                first_operand = self.pop()
                 second_operand = self.pop()
+                first_operand = self.pop()
                 result = correct_method(int(first_operand), int(second_operand))
                 self.push(result)
             else:
