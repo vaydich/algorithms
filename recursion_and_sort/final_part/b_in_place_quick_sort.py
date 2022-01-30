@@ -1,4 +1,4 @@
-# 64635450
+# 64659047
 from typing import List
 
 
@@ -17,11 +17,19 @@ def partition(arr: List[any], left: int, right: int) -> int:
     while left_index < right_index:
         while left_index < right and (not is_bigger(arr[left_index], pivot)):
             left_index += 1
-        while right_index > left and (is_bigger(arr[right_index], pivot) or arr[right_index] == pivot):
+        while (
+                right_index > left and
+                (
+                        is_bigger(arr[right_index], pivot) or
+                        arr[right_index] == pivot
+                )
+        ):
             right_index -= 1
 
         if left_index < right_index:
-            arr[left_index], arr[right_index] = arr[right_index], arr[left_index]
+            arr[left_index], arr[right_index] = (
+                arr[right_index], arr[left_index]
+            )
 
     if is_bigger(arr[left_index], pivot):
         arr[left_index], arr[right] = arr[right], arr[left_index]
@@ -57,5 +65,5 @@ def read_input() -> List[any]:
 if __name__ == '__main__':
     participants = read_input()
     quick_sort(participants, 0, len(participants) - 1)
-    for participant in reversed(participants):
-        print(participant[0])
+    print('\n'.join(participant[0] for participant in reversed(participants)))
+
